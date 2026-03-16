@@ -1,0 +1,5 @@
+<root>
+    <item name='org.springframework.test.context.support.AnnotationConfigContextLoaderUtils'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
