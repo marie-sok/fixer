@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <list size="5">
+      <item index="0" class="java.lang.String" itemvalue="jakarta.persistence.PrePersist" />
+      <item index="1" class="java.lang.String" itemvalue="org.springframework.stereotype.Controller" />
+      <item index="2" class="java.lang.String" itemvalue="org.springframework.transaction.annotation.Transactional" />
+      <item index="3" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.GetMapping" />
+      <item index="4" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.PostMapping" />
+    </list>
+    <writeAnnotations>
+      <writeAnnotation name="jakarta.persistence.Column" />
+      <writeAnnotation name="jakarta.persistence.Enumerated" />
+      <writeAnnotation name="jakarta.persistence.GeneratedValue" />
+      <writeAnnotation name="jakarta.persistence.ManyToOne" />
+      <writeAnnotation name="org.springframework.beans.factory.annotation.Autowired" />
+    </writeAnnotations>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -8,7 +24,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="graalvm-jdk-21" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="temurin-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
