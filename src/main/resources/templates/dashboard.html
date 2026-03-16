@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixer - Ремонт на час</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-yellow-200 via-red-200 to-orange-200 min-h-screen font-sans">
+
+<!-- HEADER -->
+<header class="text-center py-8">
+    <h1 class="text-5xl font-extrabold text-red-700 drop-shadow-lg">Fixer - Мастера рядом!</h1>
+    <p class="mt-2 text-xl text-gray-800">Все виды ремонта в один клик</p>
+</header>
+
+<!-- MAIN DASHBOARD -->
+<main class="max-w-7xl mx-auto px-4">
+    <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- CREATE REQUEST CARD -->
+        <div class="bg-white rounded-xl shadow-lg p-6 hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-2xl font-bold text-red-600 mb-4">Создать заявку</h2>
+            <form id="requestForm" class="space-y-3">
+                <input type="text" name="clientName" placeholder="Имя клиента" class="border p-2 rounded w-full">
+                <input type="text" name="phone" placeholder="Телефон" class="border p-2 rounded w-full">
+                <input type="text" name="address" placeholder="Адрес" class="border p-2 rounded w-full">
+                <textarea name="description" placeholder="Описание проблемы" class="border p-2 rounded w-full"></textarea>
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full transition-colors duration-300">
+                    Создать заявку
+                </button>
+            </form>
+        </div>
+
+        <!-- REQUESTS TABLE CARD -->
+        <div class="col-span-2 bg-white rounded-xl shadow-lg p-6 overflow-x-auto hover:scale-105 transform transition-all duration-300">
+            <h2 class="text-2xl font-bold text-red-600 mb-4">Активные заявки</h2>
+            <table class="w-full table-auto">
+                <thead>
+                <tr class="bg-red-100 text-left text-red-700 font-semibold">
+                    <th class="px-4 py-2">ID</th>
+                    <th class="px-4 py-2">Клиент</th>
+                    <th class="px-4 py-2">Адрес</th>
+                    <th class="px-4 py-2">Описание</th>
+                    <th class="px-4 py-2">Статус</th>
+                    <th class="px-4 py-2">Мастер</th>
+                    <th class="px-4 py-2">Действия</th>
+                </tr>
+                </thead>
+                <tbody id="requestsTable">
+                <!-- Заполняется через JS -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="text-center py-6 mt-12 text-gray-700">
+    <p>© 2026 Fixer — быстрые мастера рядом с вами</p>
+</footer>
+
+<script>
+    async function loadRequests() {
+        const res = await fetch("/api/requests?status=NEW");
+        const data = await res.json();
+        const table = document.getElementById("requestsTable");
+        table.innerHTML = "";
+
+        data.forEach(r => {
+            const row = `
+            <tr class="border-b hover:bg-red-50 transition-colors">
+                <td class="px-4 py-2">${r.id}</td>
+                <td class="px-4 py-2">${r.clientName}</td>
+                <td class="px-4 py-2">${r.address}</td>
+                <td class="px-4 py-2">${r.description}</td>
+                <td class="px-4 py-2">
+                    <span class="px-2 py-1 rounded text-white ${r.status === 'NEW' ? 'bg-yellow-500' : r.status === 'IN_PROGRESS' ? 'bg-blue-500' : r.status === 'DONE' ? 'bg-green-500' : 'bg-gray-500'}">
+                        ${r.status}
+                    </span>
+                </td>
+                <td class="px-4 py-2">${r.assignedTo ? r.assignedTo.name : '-'}</td>
+                <td class="px-4 py-2 space-x-2">
+                    <button class="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded" onclick="assign(${r.id})">Назначить</button>
+                    <button class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded" onclick="cancel(${r.id})">Отменить</button>
+                </td>
+            </tr>`;
+            table.innerHTML += row;
+        });
+    }
+
+    async function assign(requestId) {
+        const masterId = 1; // временно назначаем первого мастера
+        await fetch(`/take/${requestId}/${masterId}`, { method: "POST" });
+        loadRequests();
+    }
+
+    async function cancel(requestId) {
+        await fetch(`/api/requests/${requestId}/cancel`, { method: "POST" });
+        loadRequests();
+    }
+
+    document.getElementById("requestForm").addEventListener("submit", async e => {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            clientName: form.clientName.value,
+            phone: form.phone.value,
+            address: form.address.value,
+            description: form.description.value
+        };
+        await fetch("/api/requests", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        form.reset();
+        loadRequests();
+    });
+
+    loadRequests();
+</script>
+
+</body>
+</html>

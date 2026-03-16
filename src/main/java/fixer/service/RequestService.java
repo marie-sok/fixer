@@ -6,8 +6,11 @@ import fixer.model.User;
 import fixer.repository.RequestRepository;
 import fixer.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RequestService {
@@ -15,14 +18,15 @@ public class RequestService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;
 
-    public RequestService(RequestRepository requestRepository,
-                          UserRepository userRepository) {
-
+    public RequestService(RequestRepository requestRepository, UserRepository userRepository) {
         this.requestRepository = requestRepository;
         this.userRepository = userRepository;
     }
 
     public Request createRequest(Request request) {
+        request.setStatus(Status.NEW);
+        request.setCreatedAt(LocalDateTime.now());
+        request.setUpdatedAt(LocalDateTime.now());
         return requestRepository.save(request);
     }
 
@@ -30,49 +34,50 @@ public class RequestService {
         return requestRepository.findByStatus(status);
     }
 
+    @Transactional
     public boolean takeRequest(Long requestId, Long masterId) {
+        Optional<Request> reqOpt = requestRepository.findById(requestId);
+        if(reqOpt.isEmpty()) return false;
 
-        var requestOpt = requestRepository.findById(requestId);
-        var masterOpt = userRepository.findById(masterId);
+        Request req = reqOpt.get();
+        if(req.getAssignedTo() != null) return false;
 
-        if (requestOpt.isEmpty() || masterOpt.isEmpty()) {
-            return false;
-        }
+        User master = userRepository.findById(masterId).orElse(null);
+        if(master == null) return false;
 
-        Request request = requestOpt.get();
-        User master = masterOpt.get();
-
-        request.setAssignedTo(master);
-        request.setStatus(Status.IN_PROGRESS);
-
-        requestRepository.save(request);
-
+        req.setAssignedTo(master);
+        req.setStatus(Status.IN_PROGRESS);
+        req.setUpdatedAt(LocalDateTime.now());
+        requestRepository.save(req);
         return true;
     }
 
-    public void assignToMaster(Long requestId, Long masterId) {
-        takeRequest(requestId, masterId);
+    @Transactional
+    public boolean completeRequest(Long requestId, Long masterId) {
+        Optional<Request> reqOpt = requestRepository.findById(requestId);
+        if(reqOpt.isEmpty()) return false;
+
+        Request req = reqOpt.get();
+        if(req.getAssignedTo() == null || !req.getAssignedTo().getId().equals(masterId)) return false;
+
+        req.setStatus(Status.DONE);
+        req.setUpdatedAt(LocalDateTime.now());
+        requestRepository.save(req);
+        return true;
     }
 
-    public void completeRequest(Long requestId) {
+    @Transactional
+    public boolean cancelRequest(Long requestId) {
+        Optional<Request> reqOpt = requestRepository.findById(requestId);
+        if(reqOpt.isEmpty()) return false;
 
-        requestRepository.findById(requestId)
-                .ifPresent(req -> {
-
-                    req.setStatus(Status.DONE);
-                    requestRepository.save(req);
-
-                });
+        Request req = reqOpt.get();
+        req.setStatus(Status.CANCELLED);
+        req.setUpdatedAt(LocalDateTime.now());
+        requestRepository.save(req);
+        return true;
     }
 
-    public void cancelRequest(Long requestId) {
-
-        requestRepository.findById(requestId)
-                .ifPresent(req -> {
-
-                    req.setStatus(Status.CANCELLED);
-                    requestRepository.save(req);
-
-                });
+    public void completeRequest(Long id) {
     }
 }

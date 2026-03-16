@@ -22,6 +22,11 @@ public class RequestController {
         return service.createRequest(request);
     }
 
+    @PostMapping("/{id}/cancel")
+    public void cancel(@PathVariable Long id) {
+        service.cancelRequest(id);
+    }
+
     @GetMapping
     public List<Request> list(@RequestParam Status status) {
         return service.getRequestsByStatus(status);

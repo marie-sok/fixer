@@ -85,4 +85,10 @@ public class Request {
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
+
+    public void setCreatedAt(LocalDateTime now) {
+    }
+
+    public void setUpdatedAt(LocalDateTime now) {
+    }
 }
