@@ -1,10 +1,10 @@
-package controller;
+package fixer.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import repository.RequestRepository;
-import repository.UserRepository;
+import fixer.repository.RequestRepository;
+import fixer.repository.UserRepository;
 
 @Controller
 public class DispatcherController {
