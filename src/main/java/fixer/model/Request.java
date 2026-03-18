@@ -1,6 +1,7 @@
 package fixer.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,22 +18,40 @@ public class Request {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.NEW;
+    private Status status;
 
+    private LocalDateTime createdAt;
+
+    // 👇 МАСТЕР (кто выполняет)
     @ManyToOne
-    @JoinColumn(name = "assigned_to")
+    @JoinColumn(name = "master_id")
     private User assignedTo;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    // 👇 КЛИЕНТ (кто создал)
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private User client;
 
-    public Request() {}
+    // --- КОНСТРУКТОРЫ ---
 
-    public Request(String clientName, String phone, String address, String description) {
+    public Request() {
+    }
+
+    public Request(Long id, String clientName, String phone, String address,
+                   String description, Status status, LocalDateTime createdAt,
+                   User assignedTo, User client) {
+        this.id = id;
         this.clientName = clientName;
         this.phone = phone;
         this.address = address;
         this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.assignedTo = assignedTo;
+        this.client = client;
     }
+
+    // --- GETTERS / SETTERS ---
 
     public Long getId() {
         return id;
@@ -58,8 +77,20 @@ public class Request {
         return status;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public User getAssignedTo() {
         return assignedTo;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setClientName(String clientName) {
@@ -82,13 +113,15 @@ public class Request {
         this.status = status;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public void setAssignedTo(User assignedTo) {
         this.assignedTo = assignedTo;
     }
 
-    public void setCreatedAt(LocalDateTime now) {
-    }
-
-    public void setUpdatedAt(LocalDateTime now) {
+    public void setClient(User client) {
+        this.client = client;
     }
 }

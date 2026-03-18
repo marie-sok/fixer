@@ -1,10 +1,5 @@
 package fixer.model;
 
 public enum Status {
-
-    NEW,
-    IN_PROGRESS,
-    DONE,
-    CANCELLED
-
+    NEW, IN_PROGRESS, DONE, ASSIGNED, CANCELLED
 }

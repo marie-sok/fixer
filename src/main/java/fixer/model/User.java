@@ -3,7 +3,6 @@ package fixer.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_table")
 public class User {
 
     @Id
@@ -15,17 +14,15 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User() {}
+    public User(String name, String role) {
+    }
 
-    public User(String name, Role role) {
+    public User(Long id, String name, Role role) {
+        this.id = id;
         this.name = name;
         this.role = role;
     }
 
-    public User(String name, String role) {
-        this.name = name;
-        this.role = Role.valueOf(role.toUpperCase());
-    }
 
     public Long getId() {
         return id;
