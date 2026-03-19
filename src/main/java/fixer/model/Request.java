@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "request")
+@Table(name = "request_app")
 public class Request {
 
     @Id
@@ -22,17 +22,14 @@ public class Request {
 
     private LocalDateTime createdAt;
 
-    // 👇 МАСТЕР (кто выполняет)
     @ManyToOne
     @JoinColumn(name = "master_id")
     private User assignedTo;
 
-    // 👇 КЛИЕНТ (кто создал)
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
 
-    // --- КОНСТРУКТОРЫ ---
 
     public Request() {
     }
@@ -51,7 +48,9 @@ public class Request {
         this.client = client;
     }
 
-    // --- GETTERS / SETTERS ---
+    public Request(String client1, String number, String addr1, String problem1) {
+    }
+
 
     public Long getId() {
         return id;

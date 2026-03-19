@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewController {
 
     @GetMapping("/")
-    public String dashboard() {
-        return "dashboard";
+    public String home() {
+        return "index";
     }
-
 }

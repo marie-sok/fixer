@@ -2,222 +2,126 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Fixer Dashboard</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fixer dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
     <style>
+        :root {
+          --moss-green: #4C774C;
+          --pastel-green: #A8D5BA;
+        }
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: #f6f7fb;
-            color: #2d2d2d;
+          background-color: var(--moss-green);
+          font-family: 'Segoe UI', sans-serif;
         }
-
-        .container {
-            padding: 30px;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        /* Карточки */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
         .card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            transition: 0.2s;
+          background: white;
+          border-radius: 1rem;
+          padding: 1.5rem;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .card:hover {
-            transform: translateY(-5px);
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-
-        .status {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            margin-bottom: 10px;
+        .badge {
+          background-color: var(--pastel-green);
+          color: white;
+          font-weight: bold;
+          border-radius: 9999px;
+          padding: 0.25rem 0.6rem;
+          font-size: 0.75rem;
+          animation: pulse 2s infinite;
         }
-
-        .NEW { background: #e0f0ff; }
-        .IN_PROGRESS { background: #fff4cc; }
-        .DONE { background: #d4f8d4; }
-
-        button {
-            margin-top: 10px;
-            padding: 8px 14px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: #6c8cff;
-            color: white;
-        }
-
-        /* форма */
-        .form {
-            margin-bottom: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        input {
-            padding: 10px;
-            margin: 5px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
-        }
-
-        /* чат */
-        .chat {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-
-        .chat-box {
-            width: 260px;
-            height: 320px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            display: none;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            padding: 10px;
-            background: #6c8cff;
-            color: white;
-            border-radius: 16px 16px 0 0;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 10px;
-            font-size: 13px;
-        }
-
-        .chat-input {
-            display: flex;
-        }
-
-        .chat-input input {
-            flex: 1;
-            border: none;
-            padding: 10px;
-        }
-
-        .chat-toggle {
-            background: #6c8cff;
-            color: white;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            border: none;
-            cursor: pointer;
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
         }
     </style>
 </head>
-<body>
+<body class="p-6 text-gray-800">
 
-<div class="container">
+<header class="mb-6">
+    <h1 class="text-4xl font-extrabold text-white">Fixer</h1>
+</header>
 
-    <h1>🛠 Fixer Dashboard</h1>
+<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    <div class="form">
-        <h3>Создать заявку</h3>
-        <input id="name" placeholder="Имя клиента">
-        <input id="phone" placeholder="Телефон">
-        <input id="address" placeholder="Адрес">
-        <input id="desc" placeholder="Проблема">
-        <button onclick="createRequest()">Создать</button>
+    <div class="card">
+        <div class="flex items-center mb-4">
+            <i data-feather="file-text" class="w-6 h-6 text-[var(--pastel-green)] mr-2"></i>
+            <h2 class="text-xl font-bold">CLIENT: Мои заказы</h2>
+            <span class="ml-auto badge">5</span>
+        </div>
+        <p class="text-gray-600 mb-3">Статус текущих заявок и история заказов</p>
+        <a href="#" class="text-[var(--pastel-green)] font-semibold hover:underline">Перейти →</a>
     </div>
 
-    <div class="grid" id="requests"></div>
-
-</div>
-
-<div class="chat">
-    <button class="chat-toggle" onclick="toggleChat()">💬</button>
-
-    <div class="chat-box" id="chatBox">
-        <div class="chat-header">Поддержка</div>
-        <div class="chat-messages" id="messages">
-            Привет! Чем помочь?
+    <div class="card">
+        <div class="flex items-center mb-4">
+            <i data-feather="tool" class="w-6 h-6 text-[var(--pastel-green)] mr-2"></i>
+            <h2 class="text-xl font-bold">MASTER: Мои задания</h2>
+            <span class="ml-auto badge">3</span>
         </div>
-        <div class="chat-input">
-            <input id="msg" placeholder="Сообщение...">
-            <button onclick="send()">→</button>
+        <p class="text-gray-600 mb-3">Активные и завершенные задачи</p>
+        <a href="#" class="text-[var(--pastel-green)] font-semibold hover:underline">Перейти →</a>
+    </div>
+
+    <div class="card">
+        <div class="flex items-center mb-4">
+            <i data-feather="shuffle" class="w-6 h-6 text-[var(--pastel-green)] mr-2"></i>
+            <h2 class="text-xl font-bold">DISPATCHER: Новые заявки</h2>
+            <span class="ml-auto badge">7</span>
+        </div>
+        <p class="text-gray-600 mb-3">Обработка и распределение заявок</p>
+        <a href="#" class="text-[var(--pastel-green)] font-semibold hover:underline">Перейти →</a>
+    </div>
+
+</main>
+
+<section class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card">
+        <h2 class="text-xl font-bold mb-4">Последние заявки</h2>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+            <tr class="bg-[var(--pastel-green)] text-white">
+                <th class="px-4 py-2 text-left text-sm font-medium">ID</th>
+                <th class="px-4 py-2 text-left text-sm font-medium">Статус</th>
+                <th class="px-4 py-2 text-left text-sm font-medium">Дата</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+            <tr>
+                <td class="px-4 py-2">101</td>
+                <td class="px-4 py-2"><span class="badge">Новая</span></td>
+                <td class="px-4 py-2">19.03.2026</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2">102</td>
+                <td class="px-4 py-2"><span class="badge">В работе</span></td>
+                <td class="px-4 py-2">18.03.2026</td>
+            </tr>
+            <tr>
+                <td class="px-4 py-2">103</td>
+                <td class="px-4 py-2"><span class="badge">Готово</span></td>
+                <td class="px-4 py-2">17.03.2026</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2 class="text-xl font-bold mb-4">Статистика задач</h2>
+        <div class="h-48 bg-gray-100 rounded flex items-center justify-center text-gray-400 font-bold">
+            [График скоро появится]
         </div>
     </div>
-</div>
+</section>
 
 <script>
-
-    async function loadRequests() {
-        const res = await fetch('/requests');
-        const data = await res.json();
-
-        const container = document.getElementById('requests');
-        container.innerHTML = '';
-
-        data.forEach(r => {
-            container.innerHTML += `
-                <div class="card">
-                    <div class="status ${r.status}">${r.status}</div>
-                    <h3>${r.clientName}</h3>
-                    <p>${r.description}</p>
-                    <p>${r.address}</p>
-                    <button onclick="take(${r.id})">Взять</button>
-                </div>
-            `;
-        });
-    }
-
-    async function createRequest() {
-        await fetch('/requests', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                clientName: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                description: document.getElementById('desc').value
-            })
-        });
-
-        loadRequests();
-    }
-
-    async function take(id) {
-        await fetch('/requests/take/' + id, { method: 'POST' });
-        loadRequests();
-    }
-
-    function toggleChat() {
-        const box = document.getElementById('chatBox');
-        box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function send() {
-        const msg = document.getElementById('msg').value;
-        const messages = document.getElementById('messages');
-        messages.innerHTML += `<div>Вы: ${msg}</div>`;
-        document.getElementById('msg').value = '';
-    }
-
-    loadRequests();
-
+    feather.replace()
 </script>
 
 </body>

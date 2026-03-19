@@ -127,4 +127,7 @@ public class RequestService {
     public List<Request> getRequestsByStatus(Status status) {
         return List.of();
     }
+
+    public void assignToMaster(Long id, Long id1) {
+    }
 }

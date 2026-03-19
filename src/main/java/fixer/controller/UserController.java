@@ -5,7 +5,7 @@ import fixer.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users_app")
 public class UserController {
 
     private final UserService service;
