@@ -1,57 +1,30 @@
-# Fixer Application 🛠️
+# Fixer — Repair Request Domain Prototype
 
-**Fixer** — современное веб-приложение для управления заявками на ремонт. Интерфейс оформлен в стиле Pinterest: минимал, пастельные цвета, плавные анимации и встроенный чат поддержки.
+**Java/Spring-oriented prototype for modelling repair-service requests and users.**
 
----
+This repository is an early-stage backend/domain experiment around a repair-request workflow. The current public snapshot is intentionally small and should be read as a prototype rather than a finished production application.
 
-## Функционал
+## Current repository state
 
-### Клиентская сторона
-- Создание новой заявки через форму.
-- Автоматическое добавление акции для новых клиентов: "первый вызов бесплатно".
-- Анимация появления карточки заявки.
-- Чат поддержки, всплывающий в правом нижнем углу.
-- Минималистичный Pinterest-style интерфейс.
+The codebase currently contains the core domain entities used to represent:
 
-### Дашборд диспетчера / мастера
-- Просмотр всех заявок с разделением по статусам (`NEW`, `IN_PROGRESS`, `DONE`, `CANCELLED`).
-- Назначение заявки мастеру.
-- Отмена заявки.
-- Статус и назначенный мастер отображаются на карточке.
-- Плавная анимация появления карточек и hover-эффект.
+- repair requests;
+- users involved in the workflow.
 
-### Тестовые данные при старте
-- Мастера: Остап Бендер, Киса Воробьянинов.
-- Клиент: Ипполит Матвеевич.
-- Две тестовые заявки для проверки интерфейса и функционала.
+The project is kept public as an example of earlier Java domain-modelling work.
 
----
+## Intended product direction
 
-## Стек технологий
+The original product concept was a repair-request service with client and dispatcher/master flows: request creation, status tracking and assignment. Those broader UI and workflow ideas are **not represented completely in the current public snapshot**.
 
-- **Back-end:** Java 21, Spring Boot 3, Spring Data JPA, H2 Database (in-memory)
-- **Front-end:** HTML, TailwindCSS, FontAwesome, Vanilla JS
-- **Тесты:** JUnit 5, Spring Boot Test
-- **Docker:** образ с приложением для быстрого запуска
-- **Maven** для сборки и управления зависимостями
+## Stack / direction
+
+`Java` · `Maven` · `Spring-oriented backend design`
+
+## Why this repository is still here
+
+I prefer keeping historical work transparent rather than presenting an incomplete prototype as a finished case. For current portfolio work, see my stronger end-to-end projects such as **Oly**, **gru.** and **Ads-Online**.
 
 ---
-## Демонстрация интерфейса
 
-Ниже показан пример работы приложения:
-
-- Карточки заявок автоматически появляются при старте.
-- Акция для новых клиентов отображается на карточке.
-- Чат поддержки в правом нижнем углу.
-- Интерфейс в стиле Современный Минимализм: плавные анимации, пастельный фон, минимал-дизайн.
-
-
-
-##Установка и запуск
-
-### Локальный запуск
-```bash
-git clone https://github.com/marie-sok/fixer.git
-cd fixer
-mvn clean package
-java -jar target/fixer-app-1.0.jar
+**Marie Sok**
